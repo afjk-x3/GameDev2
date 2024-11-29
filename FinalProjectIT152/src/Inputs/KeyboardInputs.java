@@ -22,46 +22,23 @@ public class KeyboardInputs implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		switch(e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			GP.setMoving(true);
-			GP.setDirections(UP);
-			break;
-		case KeyEvent.VK_A:
-			GP.setMoving(true);
-			GP.setDirections(LEFT);
-			break;
-		case KeyEvent.VK_S:
-			GP.setMoving(true);		
-			GP.setDirections(DOWN);
-			break;
-		case KeyEvent.VK_D:
-			GP.setMoving(true);
-			GP.setDirections(RIGHT);
-			break;
-		}
-		
+	    switch(e.getKeyCode()) {
+	        case KeyEvent.VK_W: GP.getGame().getPlayer().setUp(true); break;
+	        case KeyEvent.VK_A: GP.getGame().getPlayer().setLeft(true); break;
+	        case KeyEvent.VK_S: GP.getGame().getPlayer().setDown(true); break;
+	        case KeyEvent.VK_D: GP.getGame().getPlayer().setRight(true); break;
+	    }
 	}
-		
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
-		switch(e.getKeyCode()) {
-		case KeyEvent.VK_W:
-			GP.setMoving(false);
-			break;
-		case KeyEvent.VK_A:
-			GP.setMoving(false);
-			break;
-		case KeyEvent.VK_S:
-			GP.setMoving(false);
-			break;
-		case KeyEvent.VK_D:
-			GP.setMoving(false);
-			break;
-		}
-	
+	    switch(e.getKeyCode()) {
+	        case KeyEvent.VK_W: GP.getGame().getPlayer().setUp(false); break;
+	        case KeyEvent.VK_A: GP.getGame().getPlayer().setLeft(false); break;
+	        case KeyEvent.VK_S: GP.getGame().getPlayer().setDown(false); break;
+	        case KeyEvent.VK_D: GP.getGame().getPlayer().setRight(false); break;
+	    }
 	}
+
 
 }
