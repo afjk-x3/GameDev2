@@ -24,14 +24,10 @@ public class KeyboardInputs implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 	    switch(e.getKeyCode()) {
-	        case KeyEvent.VK_W: 
-	        	GP.getGame().getPlayer().setUp(true); 
-	        	break;
 	        case KeyEvent.VK_A: 
 	        	GP.getGame().getPlayer().setLeft(true); 
 	        	break;
 	        case KeyEvent.VK_S:
-	        	GP.getGame().getPlayer().setDown(true);
 	        	GP.getGame().getPlayer().setCrouch(true);
 	        	break;
 	        case KeyEvent.VK_D: 
@@ -46,14 +42,10 @@ public class KeyboardInputs implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 	    switch(e.getKeyCode()) {
-	        case KeyEvent.VK_W: 
-	        	GP.getGame().getPlayer().setUp(false); 
-	        	break;
 	        case KeyEvent.VK_A: 
 	        	GP.getGame().getPlayer().setLeft(false); 
 	        	break;
-	        case KeyEvent.VK_S: 
-	        	GP.getGame().getPlayer().setDown(false); 
+	        case KeyEvent.VK_S:  
 	        	GP.getGame().getPlayer().setCrouch(false);
 	        	break;
 	        case KeyEvent.VK_D: 

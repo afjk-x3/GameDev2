@@ -15,19 +15,19 @@ public class Player extends Entity {
 	private float yVelocity = 0;   // Vertical velocity
 	private boolean isOnGround = false; // Whether the player is standing on the platform
 	
-    private BufferedImage img, img2, img3, platImg, aniImg, jumpImg, runImg, sungkitImg, downImg;
+   // private BufferedImage img, img2, img3, platImg, aniImg, jumpImg, runImg, sungkitImg, downImg;
     private BufferedImage[] idleAni, pugayAni, strikeAni, jumpAni, runAni, sungkitAni, downAni;
-    private int aniTick, aniIndex, aniSpeed = 25;
     private int aniPugayTick2, aniPugayIndex2, aniPugaySpeed2 = 45;
-    private int aniTick3, aniIndex3, aniSpeed3 = 21;
-    private int aniJumpTick, aniJumpIndex, aniJumpSpeed = 21;
-    private int aniRunTick, aniRunIndex, aniRunSpeed= 21;
     private int aniSungkitTick, aniSungkitIndex, aniSungkitSpeed = 21;
     private int aniDoTick, aniDownIndex, aniDownSpeed = 21;
+    private int aniAtkTick, aniAtkIndex, aniAtkSpeed = 21;//ATTACK
+    private int aniTick, aniIndex, aniSpeed = 21; //IDLE
+    private int aniJumpTick, aniJumpIndex, aniJumpSpeed = 21;//JUMP
+    private int aniRunTick, aniRunIndex, aniRunSpeed= 21;//MOVE
     private float playerSpeed = 2.0f;
 
-    private int playerAction = JUMP;
-    private boolean left, up, right, down;
+    private int playerAction = IDLE;
+    private boolean left, right, down;
     private boolean moving = false, attacking = false, sungkit = false;
 	private Platform platform;
 	
@@ -48,10 +48,8 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
+    	
         // Render based on the current player action (IDLE, RUNNING, or ATTACK)
-    	if (crouching) {
-            g.drawImage(downAni[aniDownIndex], (int) x, (int) y + 30, 150, 80, null);  // Adjust size for crouching
-        } else {
         	switch(playerAction) {
         
             case RUNNING:
@@ -61,7 +59,7 @@ public class Player extends Entity {
             
             case ATTACK:
                 // Render attack animation (should be shown in a different layer or position if needed)
-                g.drawImage(strikeAni[aniIndex3], (int) x, (int) y - 35, 150, 150, null); // Adjust position if necessary
+                g.drawImage(strikeAni[aniAtkIndex], (int) x, (int) y - 35, 150, 150, null); // Adjust position if necessary
                 break;
                 
             case JUMP:
@@ -75,19 +73,20 @@ public class Player extends Entity {
             	g.drawImage(idleAni[aniIndex], (int) x, (int) y, 150, 110, null);
                 break;
                 
-            case DOWN:
-            	g.drawImage(downAni[aniDownIndex], (int) x, (int) y, 150, 110, null);
-                
+            case CROUCH:
+            	g.drawImage(downAni[aniDownIndex], (int) x, (int) y + 30, 150, 80, null);  // Adjust size for crouching
+                break;
             default:
                 // Render idle animation
                 g.drawImage(idleAni[aniIndex], (int) x, (int) y, 150, 110, null);
                 break;
         	}
         }
-    }
+    
 
 
     private void updateAnimationTick() {
+    	//IDLE ANIMATION
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
@@ -103,12 +102,13 @@ public class Player extends Entity {
             }
         }
 
-        aniTick3++;
-        if (aniTick3 >= aniSpeed3) {
-            aniTick3 = 0;
-            aniIndex3++;
-            if (aniIndex3 >= GetSpriteAmount(playerAction)) {
-                aniIndex3 = 0;
+    	//ATTACK ANIMATION
+        aniAtkTick++;
+        if (aniAtkTick >= aniAtkSpeed) {
+            aniAtkTick = 0;
+            aniAtkIndex++;
+            if (aniAtkIndex >= GetSpriteAmount(playerAction)) {
+                aniAtkIndex = 0;
                 // Stop the attack animation once it completes
                 if (attacking) {
                     attacking = false; // Reset attacking flag after attack finishes
@@ -117,6 +117,7 @@ public class Player extends Entity {
             }
         }
         
+    	//JUMP ANIMATION
         aniJumpTick++;
         if (aniJumpTick >= aniJumpSpeed) {
             aniJumpTick = 0;
@@ -131,6 +132,7 @@ public class Player extends Entity {
             }
         }
         
+        //MOVE ANIMATION
         aniRunTick++;
         if (aniRunTick >= aniRunSpeed) {
             aniRunTick = 0;
@@ -330,7 +332,6 @@ public class Player extends Entity {
     public void resetDirBooleans() {
         left = false;
         right = false;
-        up = false;
         down = false;
     }
     
@@ -342,13 +343,6 @@ public class Player extends Entity {
         }
     }
 
-    public void setCrouch(boolean crouch) {
-        this.crouching = crouch;
-    }
-
-    public boolean isCrouching() {
-        return crouching;
-    }
     
     public void setSungkit(boolean sungkit) {
     	if(sungkit) {
@@ -359,13 +353,26 @@ public class Player extends Entity {
     }
 
     public void setAttacking(boolean attacking) {
+    	
         if (attacking) {
-            this.attacking = true;
+        	this.attacking = true;
             playerAction = ATTACK; // Switch to attack animation immediately
             aniIndex = 0; // Reset animation frame for attack
         }
     }
-
+    
+    public boolean isCrouching() {
+        return crouching;
+    }
+    
+    public void setCrouch(boolean crouch) {
+    	this.crouching = crouch;
+    	
+        if (crouching) {
+        		playerAction = CROUCH;
+        		aniIndex = 0;
+        }
+    }
 
     public boolean isLeft() {
         return left;
@@ -375,13 +382,6 @@ public class Player extends Entity {
         this.left = left;
     }
 
-    public boolean isUp() {
-        return up;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
     
     public boolean isJump() {
     	return jump;
@@ -399,11 +399,7 @@ public class Player extends Entity {
         this.right = right;
     }
 
-    public boolean isDown() {
-        return down;
-    }
+    
 
-    public void setDown(boolean down) {
-        this.down = down;
-    }
+    
 }
