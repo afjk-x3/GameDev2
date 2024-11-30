@@ -26,9 +26,9 @@ public class GamePanel extends JPanel {
 
 	private void setPanelSize() {
 		Dimension size = new Dimension(1920,1080);
-		setMinimumSize(size);
+//		setMinimumSize(size);
 		setPreferredSize(size);
-		setMaximumSize(size);
+//		setMaximumSize(size);
 	}
 	
 	public void updateGame() {
@@ -54,4 +54,3 @@ public class GamePanel extends JPanel {
 		this.yDelta = y;
 		
 	}*/
-

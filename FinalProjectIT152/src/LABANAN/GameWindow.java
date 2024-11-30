@@ -13,9 +13,9 @@ public class GameWindow{
 	    frame = new JFrame("Game Window");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.add(GP);
-	    frame.setResizable(false);
+	    frame.setResizable(true);
 	    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-	    frame.setUndecorated(true); 
+//	    frame.setUndecorated(true); 
 	    frame.pack();
 	    frame.setVisible(true);
 	    frame.addWindowFocusListener(new WindowFocusListener(){
